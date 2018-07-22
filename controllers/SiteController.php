@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SearchForm;
 
 class SiteController extends Controller
 {
@@ -61,7 +62,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $form = new SearchForm();
+        $api = Yii::$app->beachinsoft;
+        $form->load(Yii::$app->request->post());
+
+        return $this->render('index', [
+            'form' => $form,
+            'postProvider' => $api->getData($form->query)
+        ]);
     }
 
     /**
