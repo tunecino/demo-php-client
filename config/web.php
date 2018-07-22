@@ -33,6 +33,10 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'beachinsoft' => [
+            'class' => 'app\components\BeachinsoftApi',
+            'key' => 'testdev',
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
