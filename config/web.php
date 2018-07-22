@@ -40,6 +40,11 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'logFile' => '@runtime/logs/http-request.log',
+                    'categories' => ['yii\httpclient\*'],
+                ],
             ],
         ],
         'db' => $db,
@@ -62,6 +67,11 @@ if (YII_ENV_DEV) {
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
+        'panels' => [
+            'httpclient' => [
+                'class' => 'yii\\httpclient\\debug\\HttpClientPanel',
+            ],
+        ]
     ];
 
     $config['bootstrap'][] = 'gii';
