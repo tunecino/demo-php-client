@@ -8,6 +8,7 @@
   var query = $('input[name=query-value]').val() || '';
   var path = loadBtn.attr('action');
   var loading = false;
+  var maxReached = false;
 
   loadBtn.bind('click', function(e) {
     if (loading === false) {
@@ -25,7 +26,11 @@
     /**
      * We will only load more data when reaching 90% of page scroll. (could be changed within scrollPercetToLoadData var)
      */
-    if (loading === false && scrollPercent > scrollPercetToLoadData) {
+    if (
+      maxReached === false &&
+      loading === false &&
+      scrollPercent > scrollPercetToLoadData
+    ) {
       scrollPercent = 0;
       loadNext();
     }
@@ -43,11 +48,17 @@
         keywords: query
       },
       success: function(response) {
-        page++;
-        container.append(response);
-        loadBtn.show();
-        loader.hide();
-        loading = false;
+        if (response) {
+          page++;
+          container.append(response);
+          loadBtn.show();
+          loader.hide();
+          loading = false;
+        } else {
+          maxReached = true;
+          loader.remove();
+          loadBtn.remove();
+        }
       },
       error: function(request, status, error) {
         loadBtn.show();

@@ -15,6 +15,7 @@ class BeachinsoftApi extends Component
     public $key = '';
     public $engine = 1;
     public $limit = 10;
+    public $max = 50;
 
     private $_httpClient;
 
@@ -31,6 +32,13 @@ class BeachinsoftApi extends Component
 
     public function getData(string $keywords = '', int $offset = 0)
     {
+        if (($offset + 1) * $this->limit > $this->max) {
+            return Yii::createObject([
+                'class' => ArrayDataProvider::class,
+                'allModels' => [],
+            ]);
+        }
+        
         $params = [
             'engine' => $this->engine,
             'api_key' => $this->key,
