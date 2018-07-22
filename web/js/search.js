@@ -1,5 +1,7 @@
 (function() {
   var page = 1;
+  var scrollPercetToLoadData = 90;
+
   var loadBtn = $('#loadBtn');
   var loader = $('#loader');
   var container = $('#list-view-container');
@@ -9,6 +11,22 @@
 
   loadBtn.bind('click', function(e) {
     if (loading === false) {
+      loadNext();
+    }
+  });
+
+  $(window).scroll(function() {
+    /**
+     * calculate the percentage the user has scrolled down the page
+     */
+    var scrollPercent =
+      (100 * $(window).scrollTop()) /
+      ($(document).height() - $(window).height());
+    /**
+     * We will only load more data when reaching 90% of page scroll. (could be changed within scrollPercetToLoadData var)
+     */
+    if (loading === false && scrollPercent > scrollPercetToLoadData) {
+      scrollPercent = 0;
       loadNext();
     }
   });
