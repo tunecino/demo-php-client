@@ -36,6 +36,10 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'ajaxFilter' => [
+                'class' => 'yii\filters\AjaxFilter',
+                'only' => ['load-next']
+            ],
         ];
     }
 
@@ -70,6 +74,29 @@ class SiteController extends Controller
             'form' => $form,
             'postProvider' => $api->getData($form->query)
         ]);
+    }
+
+    /**
+     * Load next set of data.
+     *
+     * @return string
+     */
+    public function actionLoadNext($keywords = '', $page = 1)
+    {
+        $api = Yii::$app->beachinsoft;
+        $data = $api->getData($keywords, $page);
+        $htmlTemplate = '';
+        /**
+         * A manual rebuild of the template to avoid using Pjax
+         * as Pjax is expected to be deprecated in the next release and there
+         * are no official alternatives: https://github.com/yiisoft/yii2/issues/15383
+         */
+        foreach ($data->allModels as $k => $item) {
+            $htmlTemplate .=  '<div data-key="' . ($page * $api->limit + $k) . '">';
+            $htmlTemplate .=  $this->renderAjax('_post', ['model' => $item]);
+            $htmlTemplate .=  '</div>';
+        }
+        return $htmlTemplate;
     }
 
     /**

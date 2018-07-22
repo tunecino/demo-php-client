@@ -166,3 +166,11 @@ a.desc:after {
 .post-img {
   width: 100%;
 }
+
+.searchForm {
+  padding: 20px 0;
+}
+
+.loader-container {
+  padding: 40px 0;
+}

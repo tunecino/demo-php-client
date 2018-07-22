@@ -10,6 +10,7 @@ use yii\bootstrap\ActiveForm;
 ]); ?>
 
     <?= $form->field($model, 'query')->textInput(['autofocus' => true]) ?>
+    <?= Html::hiddenInput('query-value', $model->query, ['disabled' => true]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button']) ?>
