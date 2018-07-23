@@ -30,9 +30,9 @@ class BeachinsoftApi extends Component
         return $this->_httpClient;
     }
 
-    public function getData(string $keywords = '', int $offset = 0)
+    public function getData(string $keywords = '', int $page = 0)
     {
-        if (($offset + 1) * $this->limit > $this->max) {
+        if (($page + 1) * $this->limit > $this->max) {
             return Yii::createObject([
                 'class' => ArrayDataProvider::class,
                 'allModels' => [],
@@ -43,7 +43,7 @@ class BeachinsoftApi extends Component
             'engine' => $this->engine,
             'api_key' => $this->key,
             'limit' => $this->limit,
-            'offset' => $offset,
+            'offset' => $page * $this->limit,
         ];
         
         if ($keywords) {
